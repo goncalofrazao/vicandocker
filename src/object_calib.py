@@ -3,29 +3,27 @@ import torch
 
 from vican.cam import estimate_pose_mp
 from vican.dataset import Dataset
+from parse_config import parse_config
 
 DATASET_PATH = '/dataset'
 
-MARKER_SIZE = 0.48 * 0.575
-
-MARKER_IDS = list(map(str, range(24)))
-
 def main():
-    print("Loading dataset...")
+    must_have_keys = ['object_path', 'object_calib', 'aruco', 'marker_size', 'marker_ids', 'brightness', 'contrast']
+    config = parse_config(DATASET_PATH, must_have_keys)
 
-    obj_dataset = Dataset(root=os.path.join(DATASET_PATH, 'cube_calib'))
+    obj_dataset = Dataset(root=os.path.join(DATASET_PATH, config['object_path']))
 
     aux = estimate_pose_mp(cams=obj_dataset.im_data['cam'],
                         im_filenames=obj_dataset.im_data['filename'],
-                        aruco='DICT_4X4_1000',
-                        marker_size=MARKER_SIZE,
+                        aruco=config['aruco'],
+                        marker_size=config['marker_size'],
                         corner_refine='CORNER_REFINE_APRILTAG',
-                        marker_ids=MARKER_IDS,
+                        marker_ids=config['marker_ids'],
                         flags='SOLVEPNP_IPPE_SQUARE',
-                        brightness=-150,
-                        contrast=120)
+                        brightness=config['brightness'],
+                        contrast=config['contrast'])
 
-    torch.save(aux, os.path.join(DATASET_PATH, 'cube_calib_pose.pt'))
+    torch.save(aux, os.path.join(DATASET_PATH, config['object_calib']))
 
 if __name__ == "__main__":
     main()

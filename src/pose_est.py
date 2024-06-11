@@ -7,17 +7,17 @@ import scipy.io as sio
 from vican.cam import estimate_pose_mp
 from vican.bipgo import bipartite_se3sync, object_bipartite_se3sync
 from vican.dataset import Dataset
+from parse_config import parse_config
 
 DATASET_PATH = '/dataset'
 
-MARKER_SIZE = 0.48 * 0.575
-
-MARKER_IDS = list(map(str, range(24)))
-
 def main():
-    dataset = Dataset(root=os.path.join(DATASET_PATH, 'room'))
+    must_have_keys = ['object_calib', 'cameras_path', 'aruco', 'marker_size', 'marker_ids', 'brightness', 'contrast']
+    config = parse_config(DATASET_PATH, must_have_keys)
 
-    aux = torch.load(os.path.join(DATASET_PATH, 'cube_calib_pose.pt'))
+    dataset = Dataset(root=os.path.join(DATASET_PATH, config['cameras_path']))
+
+    aux = torch.load(os.path.join(DATASET_PATH, config['object_calib']))
 
     obj_pose_est = object_bipartite_se3sync(aux,
                                             noise_model_r=lambda edge : 0.01 * Polygon(zip(edge['corners'][:,0], edge['corners'][:,1])).area**2,
@@ -29,15 +29,15 @@ def main():
     
     cam_marker_edges = estimate_pose_mp(cams=dataset.im_data['cam'],
                                         im_filenames=dataset.im_data['filename'],
-                                        aruco='DICT_4X4_1000',
-                                        marker_size=MARKER_SIZE,
+                                        aruco=config['aruco'],
+                                        marker_size=config['marker_size'],
                                         corner_refine='CORNER_REFINE_APRILTAG',
-                                        marker_ids=MARKER_IDS,
+                                        marker_ids=config['marker_ids'],
                                         flags='SOLVEPNP_IPPE_SQUARE',
-                                        brightness=-150,
-                                        contrast=120)
+                                        brightness=config['brightness'],
+                                        contrast=config['contrast'])
     
-    torch.save(cam_marker_edges, os.path.join(DATASET_PATH, 'room_pose.pt'))
+    # torch.save(cam_marker_edges, os.path.join(DATASET_PATH, 'room_pose.pt'))
 
     tmax = 2000
     edges = {k : v for k, v in cam_marker_edges.items() if int(k[1].split('_')[0]) < tmax}
@@ -51,7 +51,7 @@ def main():
                                 lsqr_solver="conjugate_gradient",
                                 dtype=np.float32)
     
-    sio.savemat(os.path.join(DATASET_PATH, 'pose_est.mat'), pose_est)
+    sio.savemat(os.path.join(DATASET_PATH, config['cameras_pose_est']), pose_est)
 
 if __name__ == "__main__":
     main()
