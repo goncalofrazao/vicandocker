@@ -1,0 +1,9 @@
+object_path:cube_calib
+object_calib:cube_calib_pose.pt
+cameras_path:room
+cameras_pose_est:pose_est.mat
+aruco:DICT_4X4_1000
+marker_size:0.276
+marker_ids:0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23
+brightness:-150
+contrast:120
