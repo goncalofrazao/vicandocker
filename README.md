@@ -44,13 +44,13 @@ Create a directory with the following disposal
 ### Step 3
 
 ```
-docker run -v ./<volume-dir>:/dataset vican python src/object_calib.py
+docker run -v ./<volume-dir>:/dataset <image-name> python src/object_calib.py
 ```
 
 ### Step 4
 
 ```
-docker run -v ./<volume-dir>:/dataset vican python src/pose_est.py
+docker run -v ./<volume-dir>:/dataset <image-name> python src/pose_est.py
 ```
 
 #### Example of config file
