@@ -11,4 +11,4 @@ ADD requirements.txt /vican
 RUN pip install -r requirements.txt && \
     rm requirements.txt
 
-CMD ["python", "src/pose_est.py"]
+CMD ["python", "src/object_calib.py"]
