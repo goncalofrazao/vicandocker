@@ -3,17 +3,18 @@ Very efficient algorithm for camera calibration dockerized
 
 ## How to use
 
-### Calibrate the object
-
-### Step 1
+### Step 1 - build the docker image
 
 ```
 docker build -t <image-name> .
 ```
 
-### Step 2
+### Step 2 - setup dataset
 
 Create a directory with the following disposal
+
+The folders structure of ```<object-images>``` and ```<cameras-images>``` is ```<dataset>/<timestep>/<camera_id>.jpg```
+
 ```
 <volume-directory>
 ├── config.txt
@@ -41,21 +42,19 @@ Create a directory with the following disposal
     └── cameras.json
 ```
 
-### Step 3
+### Step 3 - calibrate an object
 
 ```
 docker run -v ./<volume-dir>:/dataset <image-name> python src/object_calib.py
 ```
 
-### Step 4
+### Step 4 - estimate poses of a camera network
 
 ```
 docker run -v ./<volume-dir>:/dataset <image-name> python src/pose_est.py
 ```
 
-#### Example of config file
-
-Example in [config.txt](./config.txt)
+#### Example of config file - [config.txt](./config.txt)
 
 ```
 object_path:<object-images>
@@ -69,7 +68,7 @@ brightness:-150
 contrast:120
 ```
 
-#### Example of \<object-images>/cameras.json
+#### Example of ```<object-images>/cameras.json```
 
 ```
 {
@@ -215,7 +214,7 @@ contrast:120
 }
 ```
 
-#### Example of \<cameras-images>/cameras.json
+#### Example of ```<cameras-images>/cameras.json```
 
 ```
 {
