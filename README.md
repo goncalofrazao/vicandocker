@@ -55,7 +55,7 @@ docker run -v ./<volume-dir>:/dataset vican python src/pose_est.py
 
 #### Example of config file
 
-Example in [Link Text](./config.txt)
+Example in [config.txt](./config.txt)
 
 ```
 object_path:<object-images>
