@@ -55,6 +55,8 @@ docker run -v ./<volume-dir>:/dataset vican python src/pose_est.py
 
 #### Example of config file
 
+Example in [Link Text](./config.txt)
+
 ```
 object_path:<object-images>
 object_calib:cube-calib.pt
