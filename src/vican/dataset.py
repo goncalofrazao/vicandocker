@@ -54,8 +54,9 @@ class Dataset(object):
             self.cams[k] = Camera(id=k,
                                   intrinsics=K,
                                   distortion=np.array(v["distortion"]),
-                                  extrinsics=SE3(R=np.array(v['R']),
-                                                 t=np.array(v['t'])),
+                                #   extrinsics=SE3(R=np.array(v['R']),
+                                #                  t=np.array(v['t'])),
+                                  extrinsics=None,
                                   resolution_x=v["resolution_x"],
                                   resolution_y=v["resolution_y"])
             
@@ -90,8 +91,8 @@ class Dataset(object):
         for t in timestamps:
             filenames = os.listdir(os.path.join(self.root, t))
             for filename in filenames:
-                if filename.endswith('.jpg'):
-                    cam_id = filename.split('.')[0]
+                if filename.endswith('.jpg') or filename.endswith('.png'):
+                    cam_id = str(int(filename.split('.')[0]))
                     self.im_data['cam_id'].append(cam_id)
                     self.im_data['filename'].append(os.path.join(self.root, t, filename))
                     self.im_data['timestamp'].append(t)

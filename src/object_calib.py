@@ -3,7 +3,7 @@ import torch
 
 from vican.cam import estimate_pose_mp
 from vican.dataset import Dataset
-from parse_config import parse_config
+from vican.parse_config import parse_config
 
 DATASET_PATH = '/dataset'
 

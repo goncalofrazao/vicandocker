@@ -7,7 +7,7 @@ import scipy.io as sio
 from vican.cam import estimate_pose_mp
 from vican.bipgo import bipartite_se3sync, object_bipartite_se3sync
 from vican.dataset import Dataset
-from parse_config import parse_config
+from vican.parse_config import parse_config
 
 DATASET_PATH = '/dataset'
 
