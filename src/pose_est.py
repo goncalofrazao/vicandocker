@@ -3,6 +3,7 @@ import torch
 import numpy as np
 from shapely.geometry import Polygon
 import scipy.io as sio
+import json
 
 from vican.cam import estimate_pose_mp
 from vican.bipgo import bipartite_se3sync, object_bipartite_se3sync
@@ -51,7 +52,12 @@ def main():
                                 lsqr_solver="conjugate_gradient",
                                 dtype=np.float32)
     
-    sio.savemat(os.path.join(DATASET_PATH, config['cameras_pose_est']), pose_est)
+    json_data = {}
+    for i in pose_est:
+        json_data[i] = {'R': pose_est[i].R().tolist(), 't': pose_est[i].t().tolist()}
+    
+    with open(os.path.join(DATASET_PATH, config['cameras_pose_est']), 'w') as f:
+        json.dump(json_data, f)
 
 if __name__ == "__main__":
     main()
