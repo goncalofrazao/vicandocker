@@ -42,18 +42,6 @@ The folders structure of ```<object-images>``` and ```<cameras-images>``` is ```
     └── cameras.json
 ```
 
-### Step 3 - calibrate an object
-
-``` sh
-docker run -v ./<volume-dir>:/dataset <image-name> python src/object_calib.py
-```
-
-### Step 4 - estimate poses of a camera network
-
-``` sh
-docker run -v ./<volume-dir>:/dataset <image-name> python src/pose_est.py
-```
-
 #### Example of config file - [config.txt](./config.txt)
 
 ```
@@ -167,6 +155,18 @@ contrast:120
   },
   ...
 }
+```
+
+### Step 3 - calibrate an object
+
+``` sh
+docker run -v ./<volume-dir>:/dataset <image-name> python src/object_calib.py
+```
+
+### Step 4 - estimate poses of a camera network
+
+``` sh
+docker run -v ./<volume-dir>:/dataset <image-name> python src/pose_est.py
 ```
 
 ## Auxiliar Scripts
