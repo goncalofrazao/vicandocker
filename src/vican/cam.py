@@ -126,23 +126,23 @@ def estimate_pose_worker(im_filename: str,
     dictionary = cv.aruco.Dictionary_get(eval('cv.aruco.' + aruco))
     parameters = cv.aruco.DetectorParameters_create()
 
-    if corner_refine is not None:
-        parameters.cornerRefinementMethod = eval('cv.aruco.' + corner_refine)
-    parameters.cornerRefinementMinAccuracy = 0.05
-    parameters.adaptiveThreshConstant = 10
-    parameters.cornerRefinementMaxIterations = 50
-    parameters.adaptiveThreshWinSizeStep = 5
-    parameters.adaptiveThreshWinSizeMax = 35
+    # if corner_refine is not None:
+    #     parameters.cornerRefinementMethod = eval('cv.aruco.' + corner_refine)
+    # parameters.cornerRefinementMinAccuracy = 0.05
+    # parameters.adaptiveThreshConstant = 10
+    # parameters.cornerRefinementMaxIterations = 50
+    # parameters.adaptiveThreshWinSizeStep = 5
+    # parameters.adaptiveThreshWinSizeMax = 35
 
     im = cv.imread(im_filename)
-    im = np.int16(im)
+    # im = np.int16(im)
 
-    if contrast != 0:
-        im = im * (contrast/127+1) - contrast
+    # if contrast != 0:
+    #     im = im * (contrast/127+1) - contrast
 
-    im += brightness
-    im = np.clip(im, 0, 255)
-    im = np.uint8(im)
+    # im += brightness
+    # im = np.clip(im, 0, 255)
+    # im = np.uint8(im)
 
     marker_corners, marker_ids, _ = cv.aruco.detectMarkers(im, dictionary, parameters=parameters)
 
@@ -172,6 +172,10 @@ def estimate_pose_worker(im_filename: str,
                                           rvec=rvec,
                                           tvec=t)
             R = cv.Rodrigues(rvec)[0]
+            if np.linalg.det(R) < 0:
+                print("Warning: Determinant of rotation matrix is negative.")
+                exit(1)
+                
             pose = SE3(R=R, t=t)
             reprojected = cv.projectPoints(marker_points, R, t,
                                            cam.intrinsics, cam.distortion)[0].squeeze()
