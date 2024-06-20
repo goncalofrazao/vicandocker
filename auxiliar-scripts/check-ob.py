@@ -14,9 +14,9 @@ from vican.bipgo import bipartite_se3sync, object_bipartite_se3sync
 from vican.dataset import Dataset
 from vican.parse_config import parse_config
 
-DATASET_PATH = './dataset'
+DATASET_PATH = sys.argv[1]
 
-aux = torch.load(os.path.join(DATASET_PATH, 'ob_calib.pt'))
+aux = torch.load(DATASET_PATH)
 
 obj_pose_est = object_bipartite_se3sync(aux,
                                         noise_model_r=lambda edge : 0.01 * Polygon(zip(edge['corners'][:,0], edge['corners'][:,1])).area**1,

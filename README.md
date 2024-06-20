@@ -171,25 +171,17 @@ docker run -v ./<volume-dir>:/dataset <image-name> python src/pose_est.py
 
 ## Auxiliar Scripts
 
-### ```aruco-ids.py```
+### [```aruco-detector.py```](./auxiliar-scripts/aruco-detector.py)
 
-This script finds in every [```.json```](#json-file-example) the aruco ids and aggregates all ids to complete the [config.thx](./config.txt)
+This script finds all aruco ids in a directory with the structure like [step 2](#step-2---setup-dataset)
 
-#### json file example
-``` json
-{
-  "corners": [
-    [[[538,574],[487,540],[549,545],[602,579]]],
-    [[[460,571],[415,536],[480,540],[535,577]]],
-    [[[369,569],[333,532],[407,536],[450,573]]]
-  ],
-  "ids": [
-    [13],[12],[11]
-  ]
-}
+#### Usage Example
+
+``` sh
+python auxiliar-scripts/aruco-detector.py ./dataset/cube_calib
 ```
 
-### ```camera-gen.py```
+### [```camera-gen.py```](./auxiliar-scripts/camera-gen.py)
 
 To calibrate the object it is needed to assume that the different pictures of the object was taken with different cameras. This script replicates the configuration of one camera to how many you need (in the example the number of cameras needed is N).
 
@@ -257,4 +249,24 @@ To calibrate the object it is needed to assume that the different pictures of th
         "distortion": [0,0,0,0,0,0,0,0,0,0,0,0]
     }
 }
+```
+
+### [```check-ob.py```](./auxiliar-scripts/check-ob.py)
+
+This scripts plots in 3d the position of all arucos from the object calibrated using the file obtained in [step 3](#step-3---calibrate-an-object)
+
+#### Example usage
+
+``` sh
+python auxiliar-scripts/check-ob.py ./dataset/ob_calib.pt 
+```
+
+### [```check-cam.py```](./auxiliar-scripts/check-cam.py)
+
+This scripts plots in 3d all cameras pose using the output file obtained in [step 4](#step-4---estimate-poses-of-a-camera-network)
+
+#### Example usage
+
+``` sh
+python auxiliar-scripts/check-cam.py ./dataset/pose_est.json
 ```
