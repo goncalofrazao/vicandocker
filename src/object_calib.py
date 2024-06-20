@@ -17,7 +17,7 @@ def main():
                         im_filenames=obj_dataset.im_data['filename'],
                         aruco=config['aruco'],
                         marker_size=config['marker_size'],
-                        corner_refine='CORNER_REFINE_APRILTAG',
+                        corner_refine='CORNER_REFINE_SUBPIX',
                         marker_ids=config['marker_ids'],
                         flags='SOLVEPNP_IPPE_SQUARE',
                         brightness=config['brightness'],
