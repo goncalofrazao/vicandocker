@@ -1,7 +1,10 @@
 import json
 
+import sys
+path = sys.argv[1]
+
 # Load the data from the JSON file
-with open('dataset/ob_calib2/cameras.json', 'r') as f:
+with open(path, 'r') as f:
     data = json.load(f)
 
 # Get the data for object 55
@@ -12,5 +15,5 @@ for i in range(1, 21):
     data[str(i)] = object_55_data
 
 # Write the updated data back to the JSON file
-with open('cameras.json', 'w') as f:
+with open(path, 'w') as f:
     json.dump(data, f, indent=4)
