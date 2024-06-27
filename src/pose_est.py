@@ -10,9 +10,7 @@ from vican.bipgo import bipartite_se3sync, object_bipartite_se3sync
 from vican.dataset import Dataset
 from vican.parse_config import parse_config
 
-DATASET_PATH = '/dataset'
-
-def main():
+def pose_est(DATASET_PATH='/dataset'):
     must_have_keys = ['object_calib', 'cameras_path', 'aruco', 'marker_size', 'marker_ids', 'brightness', 'contrast']
     config = parse_config(DATASET_PATH, must_have_keys)
 
@@ -47,7 +45,7 @@ def main():
                                 constraints=obj_pose_est,
                                 noise_model_r=lambda edge : 0.001 * Polygon(zip(edge['corners'][:,0], edge['corners'][:,1])).area**1.0,
                                 noise_model_t=lambda edge : 0.001 * Polygon(zip(edge['corners'][:,0], edge['corners'][:,1])).area**1.0,
-                                edge_filter=lambda edge : edge['reprojected_err'] < 0.2,
+                                edge_filter=lambda edge : edge['reprojected_err'] < 0.5,
                                 maxiter=4,
                                 lsqr_solver="conjugate_gradient",
                                 dtype=np.float32)
@@ -60,4 +58,4 @@ def main():
         json.dump(json_data, f)
 
 if __name__ == "__main__":
-    main()
+    pose_est()

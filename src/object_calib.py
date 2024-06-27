@@ -5,9 +5,7 @@ from vican.cam import estimate_pose_mp
 from vican.dataset import Dataset
 from vican.parse_config import parse_config
 
-DATASET_PATH = '/dataset'
-
-def main():
+def object_calib(DATASET_PATH='/dataset'):
     must_have_keys = ['object_path', 'object_calib', 'aruco', 'marker_size', 'marker_ids', 'brightness', 'contrast']
     config = parse_config(DATASET_PATH, must_have_keys)
 
@@ -26,5 +24,4 @@ def main():
     torch.save(aux, os.path.join(DATASET_PATH, config['object_calib']))
 
 if __name__ == "__main__":
-    main()
-    
+    object_calib()
