@@ -1,5 +1,5 @@
 import os
-import torch
+import pickle
 import numpy as np
 from shapely.geometry import Polygon
 import scipy.io as sio
@@ -18,7 +18,8 @@ def main():
 
     dataset = Dataset(root=os.path.join(DATASET_PATH, config['cameras_path']))
 
-    aux = torch.load(os.path.join(DATASET_PATH, config['object_calib']))
+    aux = pickle.load(open(os.path.join(DATASET_PATH, 'cam_marker_edges.pkl'), 'rb'))
+
 
     obj_pose_est = object_bipartite_se3sync(aux,
                                             noise_model_r=lambda edge : 0.01 * Polygon(zip(edge['corners'][:,0], edge['corners'][:,1])).area**1,

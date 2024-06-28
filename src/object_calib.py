@@ -1,5 +1,5 @@
 import os
-import torch
+import pickle
 
 from vican.cam import estimate_pose_mp
 from vican.dataset import Dataset
@@ -23,7 +23,8 @@ def main():
                         brightness=config['brightness'],
                         contrast=config['contrast'])
 
-    torch.save(aux, os.path.join(DATASET_PATH, config['object_calib']))
+    pickle.dump(aux, open(os.path.join(DATASET_PATH, 'cam_marker_edges.pkl'), 'wb'))
+
 
 if __name__ == "__main__":
     main()
