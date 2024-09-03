@@ -175,7 +175,7 @@ docker run -v ./<volume-dir>:/dataset <image-name> python src/pose_est.py
 
 ### [```aruco-detector.py```](./auxiliar-scripts/aruco-detector.py)
 
-This script finds all aruco ids in a directory with the structure like [step 2](#step-2---setup-dataset)
+This script finds all aruco ids in a directory with the structure for the config file from [step 2](#step-2---setup-dataset)
 
 #### Usage Example
 
