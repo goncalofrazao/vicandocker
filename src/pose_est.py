@@ -19,8 +19,8 @@ def pose_est(DATASET_PATH='/dataset'):
     aux = torch.load(os.path.join(DATASET_PATH, config['object_calib']))
 
     obj_pose_est = object_bipartite_se3sync(aux,
-                                            noise_model_r=lambda edge : 0.01 * Polygon(zip(edge['corners'][:,0], edge['corners'][:,1])).area**1,
-                                            noise_model_t=lambda edge : 0.001 * Polygon(zip(edge['corners'][:,0], edge['corners'][:,1])).area**1,
+                                            noise_model_r=lambda edge : 1,# * Polygon(zip(edge['corners'][:,0], edge['corners'][:,1])).area**1,
+                                            noise_model_t=lambda edge : 1,# * Polygon(zip(edge['corners'][:,0], edge['corners'][:,1])).area**1,
                                             edge_filter=lambda edge : edge['reprojected_err'] < 0.5,
                                             maxiter=4,
                                             lsqr_solver="conjugate_gradient",
@@ -43,9 +43,9 @@ def pose_est(DATASET_PATH='/dataset'):
 
     pose_est = bipartite_se3sync(cam_marker_edges,
                                 constraints=obj_pose_est,
-                                noise_model_r=lambda edge : 0.001 * Polygon(zip(edge['corners'][:,0], edge['corners'][:,1])).area**1.0,
-                                noise_model_t=lambda edge : 0.001 * Polygon(zip(edge['corners'][:,0], edge['corners'][:,1])).area**1.0,
-                                edge_filter=lambda edge : edge['reprojected_err'] < 0.5,
+                                noise_model_r=lambda edge : 1,# * Polygon(zip(edge['corners'][:,0], edge['corners'][:,1])).area**1.0,
+                                noise_model_t=lambda edge : 1,# * Polygon(zip(edge['corners'][:,0], edge['corners'][:,1])).area**1.0,
+                                edge_filter=lambda edge : edge['reprojected_err'] < 1,
                                 maxiter=4,
                                 lsqr_solver="conjugate_gradient",
                                 dtype=np.float32)

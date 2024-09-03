@@ -1,5 +1,7 @@
 # vican
-Very efficient algorithm for camera calibration dockerized
+Welcome to the Camera Calibration Dockerized Repository!
+
+This repository contains an efficient algorithm for camera calibration, fully containerized using Docker. This README will guide you through running the camera calibration algorithm using an external object with ArUco markers.
 
 ## How to use
 
